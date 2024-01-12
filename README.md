@@ -13,17 +13,17 @@ Godot 4.x plugin. Adds an improved timer with additional signals
 
 ## 🔢 Varibles and Signals
 ### _Varibles_
-* `emun ProcessCallback : int = 0` - Timer update method ( _process(), _physic_process() )
-* `range(1, 4096) WaitTime : int = 1` - After how many seconds does the timer end.
-* `export OneShot : bool = false` - Whether to **delete** the timer after the end.
-* `export AutoStart : bool = false` - Whether to start the timer **automatically** at the end (and start of the scene)
-* `onready TimeLeft : int = 0` - A local variable used to calculate the remaining time (TimeLeft = WaitTime). 
+* `emun process_callback : int = 0` - Timer update method ( _process(), _physic_process() )
+* `range(1, 4096) wait_time : int = 1` - After how many seconds does the timer end.
+* `export oneshot : bool = false` - Whether to **delete** the timer after the end.
+* `export autostart : bool = false` - Whether to start the timer **automatically** at the end (and start of the scene)
+* `onready timeleft : int = 0` - A local variable used to calculate the remaining time (TimeLeft = WaitTime). 
 
 ### _Signals_
-* `TimeOut` - The end of the timer
-* `EverySecond` - Each subtracting second from the timer
-* `TimerStop` - Timer stop use by function `$ETimer.stop()`
-* `TimerStart` - Timer start use by function `$ETimer.start()`
+* `timeout` - The end of the timer
+* `every_second` - Each subtracting second from the timer
+* `timer_stop` - Timer stop use by function `$ETimer.stop()`
+* `timer_start` - Timer start use by function `$ETimer.start()`
 
 ---
 Credit by Keldowin for Godot Engine 💙

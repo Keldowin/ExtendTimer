@@ -5,86 +5,86 @@ class_name ETimer extends Node
 #Version: 1.0
 
 ##Process timer (Process, Physics)
-@export_enum("Idle","Physics") var ProcessCallback : int
+@export_enum("Idle","Physics") var process_callback : int
 ##Count when timer end (seconds)
-@export_range(1, 4096, 1) var WaitTime : int = 1
+@export_range(1, 4096, 1) var wait_time : int = 1
 ##Delet when end
-@export var OneShot : bool = false
+@export var oneshot : bool = false
 ##Start auto when init scene and timer end
-@export var AutoStart : bool = false
+@export var autostart : bool = false
 
 #When timer end
-signal TimeOut
+signal timeout
 #Every second
-signal EverySecond
+signal every_second
 
 #When timer stop
-signal TimerStop
+signal timer_stop
 #When timer start
-signal TimerStart
+signal timer_start
 
 ##Local varible, DeltaTime += delta
-var DeltaTime : float = 0.0
+var delta_time : float = 0.0
 ##Time left (TimeLeft = WaitTime)
-@onready var TimeLeft : int = WaitTime
+@onready var timeleft : int = wait_time
 
 ## init timer
 func _ready() -> void:
 	set_process(false)
 	set_physics_process(false)
 	
-	if AutoStart:
-		TimerProcess(true)
+	if autostart:
+		timer_process(true)
 
 ##Start timer with setting process
-func TimerProcess(Process:bool) -> void:
-	match ProcessCallback:
+func timer_process(process:bool) -> void:
+	match process_callback:
 		0:
-			set_process(Process)
+			set_process(process)
 		1:
-			set_physics_process(Process)
+			set_physics_process(process)
 
 #PROCESS
 func _process(delta:float) -> void:
-	TimerFunc(delta)
+	timer_update(delta)
 	
 func _physics_process(delta:float) -> void:
-	TimerFunc(delta)
+	timer_update(delta)
 #PROCESS
 
 #update timer function
-func TimerFunc(delta:float) -> void:
-	DeltaTime += delta
+func timer_update(delta:float) -> void:
+	delta_time += delta
 	
-	if DeltaTime >= 1.0:
-		DeltaTime = 0.0
-		TimeLeft -= 1
+	if delta_time >= 1.0:
+		delta_time = 0.0
+		timeleft -= 1
 		
-		EverySecond.emit()
+		every_second.emit()
 		
 		#Timer end
-		if TimeLeft <= 0:
-			DeltaTime = 0
-			TimeLeft = WaitTime
+		if timeleft <= 0:
+			delta_time = 0
+			timeleft = wait_time
 			
-			TimeOut.emit()
+			timeout.emit()
 			
-			TimerProcess(false)
+			timer_process(false)
 			
-			if OneShot:
+			if oneshot:
 				queue_free()
 			
-			if AutoStart:
-				TimerProcess(true)
+			if autostart:
+				timer_process(true)
 
 ##Stop timer
 func stop() -> void:
-	TimerProcess(false)
+	timer_process(false)
 	
-	TimerStop.emit()
+	timer_stop.emit()
 
 ##Start timer
 func start() -> void:
-	TimerProcess(true)
+	timer_process(true)
 	
-	TimerStart.emit()
+	timer_start.emit()
