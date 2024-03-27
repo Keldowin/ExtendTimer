@@ -11,20 +11,31 @@ Godot 4.x plugin. Adds an improved timer with additional signals
 * Adjust the wait time values to your liking through the inspector tab.
 * Start the `ETimer` by calling the `$ETimer.start()` function or by enabling **autostart** in the inspector tab.
 
-## 🔢 Varibles and Signals
+## 🔢 Varibles, signals, methods
 ### _Varibles_
-* `emun process_callback : int = 0` - Timer update method ( _process(), _physic_process() )
-* `range(1, 4096) wait_time : int = 1` - After how many seconds does the timer end.
+* `emun('Idle','Physics') process_callback : int` - Timer update method (_process(), _physic_process())
+* `range(0.1, 86400.0, 0.1) time_wait : float = 1.0` - After how many **milliseconds** does the timer end. (1.0 = one second)
 * `export oneshot : bool = false` - Whether to **delete** the timer after the end.
 * `export autostart : bool = false` - Whether to start the timer **automatically** at the end (and start of the scene)
-* `onready timeleft : int = 0` - A local variable used to calculate the remaining time (TimeLeft = WaitTime). 
+* `onready time_left : float = 0.0` - A local variable used to calculate the remaining time (time_left = time_wait). 
+* `export time_emit : Array[float]` - A certain second at which the signal will be triggered `every_time(time_left: int)` and return this emit second
 
 ### _Signals_
 * `timeout` - The end of the timer
 * `every_second` - Each subtracting second from the timer
+* `every_milisecond` - Each subtracting millisecond from the timer
+* `every_time(time_left: int)` - Each subtracting **time_emit** from the timer
 * `timer_stop` - Timer stop use by function `$ETimer.stop()`
 * `timer_start` - Timer start use by function `$ETimer.start()`
 
+### _Methods_
+* `.start() -> void` - Start timer
+* `.stop() -> void` - Stop timer
+* `.reset() -> void` - Reset timer (time_left = time_wait)
+* `.get_time_left() -> int` - Return time_left like round int
+* `.get_time_wait() -> float` - Return time_wait
+
 ---
-Credit by Keldowin for Godot Engine 💙
-Timer icon use from Godot Engine
+Credit by *Keldowin* for Godot Engine 💙
+
+**Timer icon use from Godot Engine**
